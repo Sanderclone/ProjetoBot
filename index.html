@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot de Insights de Vendas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Dashboard de Insights 📈</h1>
+        <p>Pergunte ao bot sobre as planilhas do Google Drive.</p>
+    </header>
+
+    <main>
+        <form id="form-pergunta">
+            <label for="input-pergunta">Faça sua pergunta:</label>
+            <input type="text" id="input-pergunta" placeholder="Ex: Qual foi o total de vendas em Março?" required>
+            <button type="submit">Analisar</button>
+        </form>
+        
+        <div id="loading" class="hidden">
+            <p>Analisando... Isso pode levar um momento.</p>
+        </div>
+
+        <h2>Resultados da Análise:</h2>
+        <div id="insights-container">
+            </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
