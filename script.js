@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- 2. Defina o endereço da sua API (o servidor Flask) ---
     // Ele estará rodando localmente na porta 5000
-    const API_URL = "https://bot-vendas-api.onrender.com/api/gerar-insights";
+    const API_URL = "https://dashboard-vendas-mxwr.onrender.com";
 
     /**
      * Adiciona um "ouvinte" ao formulário.
@@ -82,3 +82,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
+
