@@ -101,12 +101,22 @@ def analisar_com_gemini(dataframe, pergunta):
         return f"Erro ao processar sua solicitação: {e}"
 
 # --- 3. CRIAÇÃO DO ENDPOINT DA API ---
-@app.route('/api/gerar-insights', methods=['POST'])
+
+# --- MUDANÇA 1: Adicione 'OPTIONS' à lista de métodos ---
+@app.route('/api/gerar-insights', methods=['POST', 'OPTIONS'])
 def endpoint_gerar_insights():
+    
+    # --- MUDANÇA 2: Adicione este bloco para responder ao 'OPTIONS' ---
+    if request.method == 'OPTIONS':
+        # Isso é o "preflight request" que o navegador envia
+        return jsonify({"message": "CORS preflight OK"}), 200
+    # --- Fim da Adição ---
+
     """
     Este é o endpoint que o seu front-end (JavaScript) vai chamar.
     Ele espera um JSON com a chave "pergunta".
     """
+    # O restante do seu código (que é a lógica 'POST') continua igual
     if df_vendas_consolidado.empty:
         print("❌ Tentativa de acesso à API, mas os dados não estão carregados.")
         return jsonify({"erro": "Os dados das planilhas não foram carregados no servidor."}), 500
@@ -128,7 +138,7 @@ def endpoint_gerar_insights():
             "insights": [
                 {
                     "titulo": f"Análise para: '{pergunta}'",
-                    "dado": resposta_analise
+                    "dados": resposta_analise # ATENÇÃO: Mudei de "dado" para "dados" para bater com seu JS
                 }
             ]
         }
