@@ -2,6 +2,6 @@ Flask
 flask-cors
 gspread
 pandas
-google.oauth2
+google-oauth2
 google-generativeai
 gunicorn
