@@ -1,105 +1,337 @@
-/* --- SEÇÃO DE GERENCIAMENTO --- */
-.gerenciamento {
-    margin-top: 60px;
-    padding-top: 30px;
-    border-top: 1px solid #dee2e6;
+/* --- RESET E CONFIGURAÇÕES GLOBAIS --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-.gerenciamento h2 {
-    margin-top: 0;
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f0f2f5; /* Cinza de fundo mais claro */
+    color: #1c1e21;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden; /* Impede o scroll da página inteira */
 }
 
-.gerenciamento p {
-    color: #6c757d;
-    font-size: 0.95rem;
+/* --- CABEÇALHO (HEADER) --- */
+.app-header {
+    width: 100%;
+    background-color: #1877f2; /* Azul principal */
+    color: #ffffff;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 10;
 }
 
-#form-add-planilha {
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.logo-container .ph-chart-line-up {
+    font-size: 2.5rem; /* 40px */
+}
+
+.logo-text h1 {
+    font-size: 1.5rem; /* 24px */
+    font-weight: 700;
+    margin: 0;
+}
+
+.logo-text p {
+    font-size: 0.9rem; /* 14px */
+    margin: 0;
+    opacity: 0.9;
+}
+
+/* --- LAYOUT PRINCIPAL (2 COLUNAS) --- */
+.app-wrapper {
+    display: flex;
+    flex: 1; /* Ocupa o resto da altura */
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+/* --- COLUNA ESQUERDA (CHAT) --- */
+.chat-container {
+    flex: 3; /* Ocupa 3/4 do espaço */
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border-right: 1px solid #dddfe2;
+    height: 100%;
+    padding: 24px;
+}
+
+.chat-history {
+    flex: 1; /* Ocupa todo o espaço vertical, empurrando o input para baixo */
+    overflow-y: auto; /* Adiciona scroll SÓ no histórico */
+    padding-right: 12px; /* Espaço para a barra de scroll */
+}
+
+/* Estilo das "bolhas" de chat */
+.chat-message {
+    max-width: 80%;
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    border-radius: 18px;
+    word-wrap: break-word;
+}
+
+/* Mensagem do Usuário (pergunta) */
+.chat-message.user {
+    background-color: #0084ff;
+    color: #ffffff;
+    margin-left: auto; /* Alinha à direita */
+    border-bottom-right-radius: 4px;
+}
+
+/* Mensagem do Bot (resposta) */
+.chat-message.bot {
+    background-color: #f0f2f5;
+    color: #1c1e21;
+    margin-right: auto; /* Alinha à esquerda */
+    border-bottom-left-radius: 4px;
+    white-space: pre-wrap; /* Preserva quebras de linha da API */
+}
+.chat-message.bot strong {
+    color: #1877f2;
+}
+
+/* Mensagem de Erro */
+.chat-message.error {
+    background-color: #fff0f1;
+    color: #d90429;
+    border: 1px solid #fcc2c3;
+    margin-right: auto;
+    border-bottom-left-radius: 4px;
+}
+
+/* Mensagem de Loading */
+.chat-message.loading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f0f2f5;
+    color: #65676b;
+    margin-right: auto;
+    border-bottom-left-radius: 4px;
+}
+
+/* Botão de Limpar Chat */
+.clear-chat-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: 1px solid #ccd0d5;
+    color: #65676b;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 16px;
+    margin-left: auto;
+    transition: all 0.2s;
+}
+.clear-chat-button:hover {
+    background-color: #f0f2f5;
+    border-color: #b0b3b8;
+}
+.clear-chat-button i {
+    font-size: 1.1rem;
+}
+
+/* Formulário de Input do Chat */
+.chat-input-form {
     display: flex;
     gap: 12px;
-    margin-bottom: 24px;
+    margin-top: 16px;
+    border-top: 1px solid #dddfe2;
+    padding-top: 24px;
 }
 
-#form-add-planilha label {
-    font-weight: 500;
-    color: #495057;
-    white-space: nowrap;
-    align-self: center;
-}
-
-#input-nome-planilha {
-    flex-grow: 1;
-    padding: 12px 16px;
+#input-pergunta {
+    flex: 1;
+    padding: 14px 18px;
     font-size: 1rem;
-    border: 1px solid #ced4da;
-    border-radius: 8px;
+    border: 1px solid #ccd0d5;
+    border-radius: 24px;
+    background-color: #f0f2f5;
+}
+#input-pergunta:focus {
+    outline: none;
+    border-color: #1877f2;
+    background-color: #fff;
 }
 
-#btn-add-planilha {
-    padding: 12px 20px;
-    font-size: 1rem;
-    font-weight: 500;
+#btn-analisar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1877f2;
     color: #ffffff;
-    background-color: #28a745; /* Verde para adicionar */
     border: none;
-    border-radius: 8px;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    font-size: 1.5rem;
     cursor: pointer;
     transition: background-color 0.2s;
 }
-
-#btn-add-planilha:hover {
-    background-color: #218838;
+#btn-analisar:hover {
+    background-color: #166fe5;
 }
 
-/* --- LISTA DE PLANILHAS --- */
+/* --- COLUNA DIREITA (SIDEBAR) --- */
+.sidebar-container {
+    flex: 1; /* Ocupa 1/4 do espaço */
+    background-color: #f0f2f5;
+    padding: 24px;
+    overflow-y: auto;
+    height: 100%;
+}
+
+.sidebar-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #dddfe2;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px;
+    border-bottom: 1px solid #f0f2f5;
+}
+.sidebar-card-header i {
+    font-size: 1.5rem;
+    color: #1877f2;
+}
+.sidebar-card-header h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1c1e21;
+}
+
+.sidebar-info-text {
+    font-size: 0.9rem;
+    color: #65676b;
+    padding: 0 16px 16px;
+}
+
+/* Formulário de Adicionar Planilha */
+#form-add-planilha {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 16px 16px;
+}
+#form-add-planilha label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #65676b;
+}
+#input-nome-planilha {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    border: 1px solid #ccd0d5;
+    border-radius: 6px;
+}
+#btn-add-planilha {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #36a420; /* Verde */
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+#btn-add-planilha:hover {
+    background-color: #2b821a;
+}
+#btn-add-planilha:disabled {
+    background-color: #a5d6a7;
+    cursor: not-allowed;
+}
+
+/* Mensagens de Status (Sucesso/Erro) */
+.status-message {
+    padding: 0 16px 16px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+.status-success { color: #36a420; }
+.status-error { color: #d90429; }
+
+/* Lista de Planilhas Atuais */
+.loading-sidebar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px;
+    color: #65676b;
+}
+.spinner-small {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(0,0,0,0.1);
+    border-top-color: #65676b;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
 #lista-planilhas-container {
+    padding: 16px;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-top: 16px;
 }
-
 .planilha-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px;
-    background-color: #ffffff;
-    border: 1px solid #e9ecef;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    padding: 12px;
+    background-color: #f0f2f5;
+    border-radius: 6px;
 }
-
 .planilha-item span {
-    font-weight: 500;
-    color: #343a40;
-}
-
-.btn-remover-planilha {
-    padding: 6px 12px;
     font-size: 0.9rem;
     font-weight: 500;
-    color: #dc3545; /* Vermelho para remover */
-    background-color: transparent;
-    border: 1px solid #dc3545;
-    border-radius: 6px;
+    color: #343a40;
+    word-break: break-all;
+}
+.btn-remover-planilha {
+    background: transparent;
+    border: none;
+    color: #d90429;
     cursor: pointer;
-    transition: all 0.2s;
+    font-size: 1.2rem;
+    padding: 4px;
 }
-
 .btn-remover-planilha:hover {
-    background-color: #dc3545;
-    color: #ffffff;
+    color: #b90021;
 }
 
-/* Status (sucesso/erro) do gerenciamento */
-#gerenciamento-status {
-    margin-top: 16px;
-    font-weight: 500;
-}
-.status-success {
-    color: #218838;
-}
-.status-error {
-    color: #dc3545;
+.hidden {
+    display: none;
 }
