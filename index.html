@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bot de Insights de Vendas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,12 +20,13 @@
     <main>
         <form id="form-pergunta">
             <label for="input-pergunta">Faça sua pergunta:</label>
-            <input type="text" id="input-pergunta" placeholder="Ex: Qual foi o total de vendas em Março?" required>
+            <input type="text" id="input-pergunta" placeholder="Ex: Qual foi o total de vendas?" required>
             <button type="submit">Analisar</button>
         </form>
         
         <div id="loading" class="hidden">
-            <p>Analisando... Isso pode levar um momento.</p>
+            <div class="spinner"></div>
+            <p>Analisando dados... Isso pode levar um momento.</p>
         </div>
 
         <h2>Resultados da Análise:</h2>
