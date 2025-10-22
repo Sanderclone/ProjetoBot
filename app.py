@@ -135,7 +135,7 @@ def analisar_com_gemini(dataframe, pergunta):
         """
         
         print("Enviando dados para a Gemini...")
-        model = genai.GenerativeModel('gemini-pro') # Corrigido para 'gemini-pro'
+        model = genai.GenerativeModel('gemini-2.5-pro') # Corrigido para 'gemini-pro'
         response = model.generate_content(prompt)
         print("✅ Resposta da Gemini recebida.")
         return response.text
@@ -192,5 +192,6 @@ if __name__ == '__main__':
     print(f"\n\n✅ Servidor API (modo local) pronto e ouvindo na porta {port}")
     # A linha abaixo NÃO é usada pelo Gunicorn/Render
     app.run(host="0.0.0.0", port=port)
+
 
 
