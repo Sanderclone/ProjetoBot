@@ -3,61 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bot de Insights de Vendas</title>
+    <title>Alpha Insights - Análise de Vendas</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
-        <h1>Dashboard de Insights 📈</h1>
-        <p>Pergunte ao bot sobre as planilhas do Google Drive.</p>
+    <header class="app-header">
+        <div class="logo-container">
+            <i class="ph-fill ph-chart-line-up"></i>
+            <div class="logo-text">
+                <h1>Alpha Insights</h1>
+                <p>Análise Inteligente de Vendas</p>
+            </div>
+        </div>
     </header>
 
-    <main>
-        <section class="analise">
-            <form id="form-pergunta">
-                <label for="input-pergunta">Faça sua pergunta:</label>
-                <input type="text" id="input-pergunta" placeholder="Ex: Qual foi o total de vendas?" required>
-                <button type="submit" id="btn-analisar">Analisar</button>
+    <div class="app-wrapper">
+
+        <main class="chat-container">
+            <div class="chat-history" id="chat-history">
+                </div>
+
+            <button id="btn-limpar-chat" class="clear-chat-button">
+                <i class="ph ph-trash"></i>
+                Limpar chat
+            </button>
+
+            <form id="form-pergunta" class="chat-input-form">
+                <input type="text" id="input-pergunta" placeholder="Digite sua pergunta sobre vendas..." required>
+                <button type="submit" id="btn-analisar">
+                    <i class="ph ph-paper-plane-right"></i>
+                </button>
             </form>
-            
-            <div id="loading" class="hidden">
-                <div class="spinner"></div>
-                <p>Analisando dados... Isso pode levar um momento.</p>
+        </main>
+
+        <aside class="sidebar-container">
+            <div class="sidebar-card">
+                <div class="sidebar-card-header">
+                    <i class="ph ph-plus-circle"></i>
+                    <h3>Adicionar Dados</h3>
+                </div>
+                <p class="sidebar-info-text">
+                    Você pode adicionar novas planilhas de vendas preenchendo o campo abaixo.
+                </p>
+                
+                <form id="form-add-planilha">
+                    <label for="input-nome-planilha">Nome da Planilha no Google Drive:</label>
+                    <input type="text" id="input-nome-planilha" placeholder="Ex: vendas_fevereiro_2025" required>
+                    <button type="submit" id="btn-add-planilha">
+                        <i class="ph ph-plus"></i>
+                        Adicionar Planilha
+                    </button>
+                </form>
+                <div id="gerenciamento-status" class="status-message">
+                    </div>
             </div>
 
-            <h2>Resultados da Análise:</h2>
-            <div id="insights-container">
+            <div class="sidebar-card">
+                <div class="sidebar-card-header">
+                    <i class="ph ph-list-bullets"></i>
+                    <h3>Planilhas Carregadas</h3>
                 </div>
-        </section>
-
-        <section class="gerenciamento">
-            <h2>Gerenciar Planilhas</h2>
-            <p>Adicione ou remova planilhas de dados da análise. O bot irá recarregar os dados automaticamente.</p>
-            
-            <form id="form-add-planilha">
-                <label for="input-nome-planilha">Nome da Planilha:</label>
-                <input type="text" id="input-nome-planilha" placeholder="Ex: vendas_january_2025" required>
-                <button type="submit" id="btn-add-planilha">Adicionar</button>
-            </form>
-
-            <div id="planilhas-loading" class="hidden">
-                <div class="spinner"></div>
-                <p>Carregando lista...</p>
+                <div id="planilhas-loading" class="loading-sidebar">
+                    <div class="spinner-small"></div>
+                    <p>Carregando lista...</p>
+                </div>
+                <div id="lista-planilhas-container">
+                    </div>
             </div>
+        </aside>
 
-            <h3>Planilhas Carregadas Atualmente:</h3>
-            <div id="lista-planilhas-container">
-                </div>
-            <div id="gerenciamento-status">
-                </div>
-        </section>
-
-    </main>
+    </div>
 
     <script src="script.js"></script>
 </body>
