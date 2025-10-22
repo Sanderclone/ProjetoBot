@@ -75,12 +75,13 @@ document.addEventListener("DOMContentLoaded", () => {
             card.className = "insight-card";
             card.innerHTML = `
                 <h3>${insight.titulo || 'Insight'}</h3>
-                <p>${insight.dado || 'Sem detalhes'}</p>
+                <p>${insight.dados || 'Sem detalhes'}</p>
             `;
             insightsContainer.appendChild(card);
         });
     }
 
 });
+
 
 
