@@ -148,6 +148,13 @@ body {
 .clear-chat-button i {
     font-size: 1.1rem;
 }
+.clear-chat-button:hover {
+    background-color: #f0f2f5;
+    border-color: #b0b3b8;
+}
+.clear-chat-button i {
+    font-size: 1.1rem;
+}
 
 /* Formulário de Input do Chat */
 .chat-input-form {
@@ -335,3 +342,4 @@ body {
 .hidden {
     display: none;
 }
+
