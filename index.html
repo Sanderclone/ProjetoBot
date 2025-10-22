@@ -18,20 +18,45 @@
     </header>
 
     <main>
-        <form id="form-pergunta">
-            <label for="input-pergunta">Faça sua pergunta:</label>
-            <input type="text" id="input-pergunta" placeholder="Ex: Qual foi o total de vendas?" required>
-            <button type="submit">Analisar</button>
-        </form>
-        
-        <div id="loading" class="hidden">
-            <div class="spinner"></div>
-            <p>Analisando dados... Isso pode levar um momento.</p>
-        </div>
-
-        <h2>Resultados da Análise:</h2>
-        <div id="insights-container">
+        <section class="analise">
+            <form id="form-pergunta">
+                <label for="input-pergunta">Faça sua pergunta:</label>
+                <input type="text" id="input-pergunta" placeholder="Ex: Qual foi o total de vendas?" required>
+                <button type="submit" id="btn-analisar">Analisar</button>
+            </form>
+            
+            <div id="loading" class="hidden">
+                <div class="spinner"></div>
+                <p>Analisando dados... Isso pode levar um momento.</p>
             </div>
+
+            <h2>Resultados da Análise:</h2>
+            <div id="insights-container">
+                </div>
+        </section>
+
+        <section class="gerenciamento">
+            <h2>Gerenciar Planilhas</h2>
+            <p>Adicione ou remova planilhas de dados da análise. O bot irá recarregar os dados automaticamente.</p>
+            
+            <form id="form-add-planilha">
+                <label for="input-nome-planilha">Nome da Planilha:</label>
+                <input type="text" id="input-nome-planilha" placeholder="Ex: vendas_january_2025" required>
+                <button type="submit" id="btn-add-planilha">Adicionar</button>
+            </form>
+
+            <div id="planilhas-loading" class="hidden">
+                <div class="spinner"></div>
+                <p>Carregando lista...</p>
+            </div>
+
+            <h3>Planilhas Carregadas Atualmente:</h3>
+            <div id="lista-planilhas-container">
+                </div>
+            <div id="gerenciamento-status">
+                </div>
+        </section>
+
     </main>
 
     <script src="script.js"></script>
