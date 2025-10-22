@@ -102,8 +102,8 @@ def analisar_com_gemini(dataframe, pergunta):
             print("--> Otimização: Pergunta de 'Total de Vendas' detectada.")
             
             # Garantir que a coluna 'Venda' é numérica
-            dataframe['Venda'] = pd.to_numeric(dataframe['Venda'], errors='coerce')
-            total_vendas = dataframe['Venda'].sum()
+            dataframe['Receita_Total'] = pd.to_numeric(dataframe['Receita_Total'], errors='coerce')
+            total_vendas = dataframe['Receita_Total'].sum()
             
             # Vamos formatar a resposta nós mesmos para economizar a API
             resposta_formatada = f"O total de vendas consolidado de todos os 12 meses é de **R$ {total_vendas:,.2f}**."
@@ -192,6 +192,7 @@ if __name__ == '__main__':
     print(f"\n\n✅ Servidor API (modo local) pronto e ouvindo na porta {port}")
     # A linha abaixo NÃO é usada pelo Gunicorn/Render
     app.run(host="0.0.0.0", port=port)
+
 
 
 
