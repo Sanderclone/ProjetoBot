@@ -23,7 +23,6 @@ NOMES_DAS_PLANILHAS = [
     "vendas_july_2024", "vendas_august_2024", "vendas_september_2024",
     "vendas_october_2024", "vendas_november_2024", "vendas_december_2024"
 ]
-# As chaves de API e credenciais foram removidas daqui!
 
 # --- 2. INICIALIZAÇÃO DO FLASK E AUTENTICAÇÃO ---
 app = Flask(__name__)
@@ -38,6 +37,7 @@ def carregar_dados_google():
     Será executada uma vez quando o servidor iniciar, usando variáveis de ambiente.
     """
     global df_vendas_consolidado
+    print("🔄 Iniciando carregamento dos dados do Google...")
     try:
         # **MUDANÇA 1: Ler a chave da API Gemini da variável de ambiente**
         GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
@@ -72,15 +72,16 @@ def carregar_dados_google():
             planilha = client.open(nome_planilha).sheet1
             dados_mes = pd.DataFrame(planilha.get_all_records())
             lista_de_dataframes.append(dados_mes)
+            print(f"  > Planilha '{nome_planilha}' lida com sucesso.")
         except Exception as e:
             print(f"⚠ AVISO ao ler '{nome_planilha}': {e}")
 
     if lista_de_dataframes:
         df_vendas_consolidado = pd.concat(lista_de_dataframes, ignore_index=True)
         print("\n--- Consolidação Finalizada ---")
-        print(f"Total de {len(df_vendas_consolidado)} registros de vendas foram carregados.")
+        print(f"✅ Total de {len(df_vendas_consolidado)} registros de vendas foram carregados.")
     else:
-        print("\nNenhum dado foi carregado.")
+        print("\n❌ NENHUM DADO FOI CARREGADO. O dataframe está vazio.")
 
 def analisar_com_gemini(dataframe, pergunta):
     """
@@ -145,10 +146,18 @@ def endpoint_gerar_insights():
         print(f"❌ Erro inesperado no endpoint: {e}")
         return jsonify({"erro": f"Erro interno do servidor: {e}"}), 500
 
+# ===================================================================
 # --- 4. EXECUÇÃO DO SERVIDOR ---
+# ===================================================================
+
+# 🚨🚨 MUDANÇA CRUCIAL 🚨🚨
+# Movemos a chamada da função para FORA do bloco 'if __name__ ...'
+# Isso garante que ela será executada quando o Gunicorn importar o app.
+carregar_dados_google()
+
+# Este bloco agora só serve para rodar localmente (ex: python app.py)
 if __name__ == '__main__':
-    carregar_dados_google()
-    # A linha app.run() é usada para desenvolvimento. O Render usará o Gunicorn.
     port = int(os.environ.get("PORT", 5000))
-    print(f"\n\n✅ Servidor API pronto e ouvindo na porta {port}")
+    print(f"\n\n✅ Servidor API (modo local) pronto e ouvindo na porta {port}")
+    # A linha abaixo NÃO é usada pelo Gunicorn/Render
     app.run(host="0.0.0.0", port=port)
