@@ -86,8 +86,38 @@ def carregar_dados_google():
 def analisar_com_gemini(dataframe, pergunta):
     """
     Função que recebe os dados e a pergunta, e retorna a análise da Gemini.
+    Agora com otimização para perguntas simples.
     """
     print(f"Iniciando análise para a pergunta: '{pergunta[:50]}...'")
+    
+    # --- OTIMIZAÇÃO PARA O LIMITE DE TOKENS ---
+    # Vamos checar por perguntas simples primeiro
+    try:
+        pergunta_lower = pergunta.lower()
+        
+        # 🚨 IMPORTANTE: Assumindo que sua coluna de vendas se chama 'Venda'.
+        # Se o nome da coluna for 'Valor', 'Total', etc., troque 'Venda' abaixo.
+        
+        if "total de vendas" in pergunta_lower or "venda total" in pergunta_lower:
+            print("--> Otimização: Pergunta de 'Total de Vendas' detectada.")
+            
+            # Garantir que a coluna 'Venda' é numérica
+            dataframe['Venda'] = pd.to_numeric(dataframe['Venda'], errors='coerce')
+            total_vendas = dataframe['Venda'].sum()
+            
+            # Vamos formatar a resposta nós mesmos para economizar a API
+            resposta_formatada = f"O total de vendas consolidado de todos os 12 meses é de **R$ {total_vendas:,.2f}**."
+            print("✅ Resposta calculada via Pandas.")
+            return resposta_formatada
+
+        # (Você pode adicionar mais blocos 'elif' aqui para outras perguntas)
+        
+    except Exception as e:
+        print(f"⚠ Erro durante a otimização com Pandas: {e}")
+        # Se a otimização falhar, apenas continue para o método antigo
+
+    # --- MÉTODO ANTIGO (VAI FALHAR SE OS DADOS FOREM MUITO GRANDES) ---
+    print("Enviando todos os dados para a Gemini (pode falhar por limite de tokens)...")
     try:
         dados_em_string = dataframe.to_csv(index=False)
         prompt = f"""
@@ -105,12 +135,13 @@ def analisar_com_gemini(dataframe, pergunta):
         """
         
         print("Enviando dados para a Gemini...")
-        model = genai.GenerativeModel('gemini-2.5-pro')
+        model = genai.GenerativeModel('gemini-pro') # Corrigido para 'gemini-pro'
         response = model.generate_content(prompt)
         print("✅ Resposta da Gemini recebida.")
         return response.text
     except Exception as e:
         print(f"❌ Ocorreu um erro ao chamar a API da Gemini: {e}")
+        # Esta é a mensagem de erro 429 que você está vendo
         return f"Erro ao processar sua solicitação: {e}"
 
 # --- 3. CRIAÇÃO DO ENDPOINT DA API ---
@@ -161,4 +192,5 @@ if __name__ == '__main__':
     print(f"\n\n✅ Servidor API (modo local) pronto e ouvindo na porta {port}")
     # A linha abaixo NÃO é usada pelo Gunicorn/Render
     app.run(host="0.0.0.0", port=port)
+
 
